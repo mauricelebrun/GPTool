@@ -1,9 +1,8 @@
 import streamlit as st
 import openai
-import time
 from src.gpt import api_gpt
 from src.front import space
-from src.pricing import pricing_input, pricing_output, count_token
+from src.voice import save_audio
 
 # OpenAI API key
 openai.api_key = st.secrets["api_key"]
@@ -20,20 +19,18 @@ prompt = st.chat_input("Prompt")
 
 # Define output
 if prompt:
-    start = time.time()
     message = st.chat_message("user")
     message.write(prompt)
     with st.spinner("Loading..."):
         output = api_gpt(prompt)
-        total_tokens = count_token(prompt + output)
-        #total_price = pricing_input(model, total_tokens) + pricing_output(model, total_tokens)
-
-        # Display pricing with output
-        end = time.time()
-        output = output #+ "\n\n" + f"Total tokens: {total_tokens} | Total price: ${total_price:.4f} | Time: {end-start:.2f} seconds"
 
         # Display output
         message = st.chat_message("assistant")
         message.write(output)
+
+    # Save text to audio file and then run it using st.audio()
+    save_audio(output, "output.mp3")
+    st.audio("output.mp3", format="audio/mp3")
+
 
 

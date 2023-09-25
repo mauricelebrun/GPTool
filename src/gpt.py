@@ -51,6 +51,6 @@ def api_gpt(prompt):
 
         return completion["choices"][0]["message"]["content"]
 
-    except openai.error.InvalidRequestError:
+    except:
         print("Henri is sleeping, please try again later.")
         return None
