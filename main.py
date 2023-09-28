@@ -31,9 +31,9 @@ if prompt:
         message.write(output)
 
     # Save text to audio file and then run it using st.audio()
-    #save_audio(output, "output.mp3")
-    system(f"say '{output}'")
-    #st.audio("output.mp3", format="audio/mp3")
+    save_audio(output, "output.mp3")
+    #system(f"say '{output}'")
+    st.audio("output.mp3", format="audio/mp3")
 
 
 
