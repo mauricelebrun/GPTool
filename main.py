@@ -1,50 +1,54 @@
-import streamlit as st
-import openai
-from os import system
-from src.gpt import api_gpt
-from src.front import space
-#from src.voice import save_audio
-import time
 
-# OpenAI API key
-openai.api_key = st.secrets["api_key"]
+try:
+    import streamlit as st
+    import openai
+    from src.gpt import api_gpt
+    from src.front import space
+    #from src.voice import save_audio
 
-# Page title
-title = "<h1 style='text-align: center; color: #FFFFFF;'>Henri Rousseau</h1>"
-st.markdown(title, unsafe_allow_html=True)
-space(2)
+    # OpenAI API key
+    openai.api_key = st.secrets["api_key"]
 
-# Initialize chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+    # Page title
+    title = "<h1 style='text-align: center; color: #FFFFFF;'>Henri Rousseau</h1>"
+    st.markdown(title, unsafe_allow_html=True)
+    space(2)
 
-# Display chat messages from history on app rerun
-for message in st.session_state.messages:
-    if message["role"] == "assistant":
-        with st.chat_message(message["role"], avatar="rousseau.png"):
-            st.markdown(message["content"])
-    else:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+    # Initialize chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-# React to user input
-if prompt := st.chat_input("What is up?"):
-    # Display user message in chat message container
-    st.chat_message("user").markdown(prompt)
-    # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    # Display chat messages from history on app rerun
+    for message in st.session_state.messages:
+        if message["role"] == "assistant":
+            with st.chat_message(message["role"], avatar="rousseau.png"):
+                st.markdown(message["content"])
+        else:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
 
-    # Add all messages to chat history in the prompt
-    prompt = "\n".join([message["content"] for message in st.session_state.messages])
+    # React to user input
+    if prompt := st.chat_input("What is up?"):
+        # Display user message in chat message container
+        st.chat_message("user").markdown(prompt)
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Limit prompt length to 2048 tokens
-    prompt = prompt[-10000:]
+        # Add all messages to chat history in the prompt
+        prompt = "\n".join([message["content"] for message in st.session_state.messages])
 
-    # Generate assistant response
-    response = api_gpt(prompt)
+        # Limit prompt length to 2048 tokens
+        prompt = prompt[-10000:]
 
-    # Display assistant response in chat message container
-    with st.chat_message("assistant"):
-        st.markdown(response)
-    # Add assistant response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        # Generate assistant response
+        response = api_gpt(prompt)
+
+        # Display assistant response in chat message container
+        with st.chat_message("assistant"):
+            st.markdown(response)
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": response})
+
+except:
+    st.error("Something went wrong with Henri Rousseau."
+             "Please try refreshing the page or try again later.")
