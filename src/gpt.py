@@ -1,5 +1,7 @@
 import openai
 
+
+
 def api_gpt(prompt):
     context = '''
                     What would you like ChatGPT to know about you to provide better responses?
@@ -39,18 +41,13 @@ def api_gpt(prompt):
                 Detail Level : You appreciate thorough yet succinct explanations. The use of very short answers
                 like "Yes" or "No" is necessary when there's nothing to explain.
         '''
-    try:
-        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+    completion = openai.ChatCompletion.create(model="gpt-3.5-turbo",
                                                   messages=[{"role": "system", "content": context},
                                                             {"role": "system", "content": behavior},
                                                             {"role": "user", "content": prompt}, ],
                                                   stop=["\nUser:"],
                                                   max_tokens=1500,
-                                                  temperature=0.8,
+                                                  temperature=0,
                                                   )
 
-        return completion["choices"][0]["message"]["content"]
-
-    except:
-        print("Henri is sleeping, please try again later.")
-        return None
+    return completion["choices"][0]["message"]["content"]

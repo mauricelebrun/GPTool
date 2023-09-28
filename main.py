@@ -37,7 +37,7 @@ try:
         # Add all messages to chat history in the prompt
         prompt = "\n".join([message["content"] for message in st.session_state.messages])
 
-        # Limit prompt length to 2048 tokens
+        # Limit prompt length
         prompt = prompt[-10000:]
 
         # Generate assistant response
@@ -50,5 +50,5 @@ try:
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 except:
-    st.error("Something went wrong with Henri Rousseau."
+    st.error("Something went wrong with Henri Rousseau. "
              "Please try refreshing the page or try again later.")
