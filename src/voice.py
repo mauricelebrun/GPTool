@@ -1,11 +1,13 @@
 from os import system
 import sys
 import pyttsx3
+from pydub import AudioSegment
 
 
-def save_audio(text, filename):
-    engine = pyttsx3.init()
-    engine.save_to_file(text, filename)
+#def save_audio_mp3(text, filename):
+    
+
+
 
 
 def speak(text):
