@@ -2,12 +2,17 @@
 try:
     import streamlit as st
     import openai
+    import pyttsx3
+    import random
     from src.gpt import api_gpt
     from src.front import space
-    #from src.voice import save_audio
+    from src.voice import speak
 
     # OpenAI API key
     openai.api_key = st.secrets["api_key"]
+
+    # Init pyttsx3
+    engine = pyttsx3.init()
 
     # Page title
     title = "<h1 style='text-align: center; color: #FFFFFF;'>Henri Rousseau</h1>"
@@ -50,5 +55,7 @@ try:
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 except:
-    st.error("Something went wrong with Henri Rousseau. "
-             "Please try refreshing the page or try again later.")
+    texts_error = ['Henri is busy painting the bloom of Japanese nuclear plankton',
+                   'Henri is busy observing the wild birds in the Bois de Boulogne.',
+                   'Henri is puzzled by Northern Lights above the butte Chaumont.']
+    st.error(random.choice(texts_error))
