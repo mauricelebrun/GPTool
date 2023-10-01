@@ -47,6 +47,10 @@ try:
 
         # Generate assistant response
         response = api_gpt(prompt)
+        speaking_in_progress = True
+        speak(response, engine)
+        speaking_in_progress = False
+        engine = None
 
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
@@ -54,7 +58,12 @@ try:
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
 
-except:
+except Exception as e:
+
+    # development mode
+    st.write(e)
+
+    # production mode
     texts_error = ['Henri is busy painting the bloom of Japanese nuclear plankton',
                    'Henri is busy observing the wild birds in the Bois de Boulogne.',
                    'Henri is puzzled by Northern Lights above the butte Chaumont.']
