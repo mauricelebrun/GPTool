@@ -47,9 +47,7 @@ try:
 
         # Generate assistant response
         response = api_gpt(prompt)
-        speaking_in_progress = True
         speak(response, engine)
-        speaking_in_progress = False
         engine = None
 
         # Display assistant response in chat message container
