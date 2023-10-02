@@ -12,17 +12,17 @@ def speak(text):
 
     # Init pyttsx3
     engine = pyttsx3.init()
-    engine.setProperty('rate', 165)
+    engine.setProperty('rate', 155)
     engine.say(clean_text)
-    #engine.save_to_file(clean_text, '../name.mp3')
+    engine.save_to_file(clean_text, 'name.mp3')
     engine.runAndWait()
 
     # wait until speaking is finished (approximate)
-    time.sleep(len(clean_text)/10)
+    #time.sleep(len(clean_text)/10)
 
 
 
     # play audio with streamlit
-    #st.audio('../name.mp3', format='audio/mp3')
+    #st.audio('name.mp3', format='audio/mp3')
 
 

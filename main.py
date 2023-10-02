@@ -4,9 +4,11 @@ try:
     import openai
     import pyttsx3
     import random
+    import time
     from src.gpt import api_gpt
     from src.front import space
     from src.voice import speak
+    from src.midi import send_midi
 
     # OpenAI API key
     openai.api_key = st.secrets["api_key"]
@@ -44,12 +46,33 @@ try:
 
         # Generate assistant response
         response = api_gpt(prompt)
+
+        # save txt
+        words = response.split()
+        response_puredata = ", ".join(words)
+        text_file = open("/Users/josephbarbier/Documents/Pd/test.txt", "w")
+        n = text_file.write(response_puredata)
+        text_file.close()
+
+        # send midi
+        send_midi()
+
         speak(response)
         engine = None
 
         # Display assistant response in chat message container
         with st.chat_message("assistant", avatar="rousseau.png"):
-            st.markdown(response)
+
+            message_placeholder = st.empty()
+            full_response = ""
+
+            # Simulate stream of response with milliseconds delay
+            for chunk in response.split():
+                full_response += chunk + " "
+                time.sleep(0.4)
+                # Add a blinking cursor to simulate typing
+                message_placeholder.markdown(full_response + "▌")
+            message_placeholder.markdown(full_response)
 
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
