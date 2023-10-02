@@ -1,29 +1,28 @@
 import streamlit as st
-#from gtts import gTTS
+import time
+import pyttsx3
 
 
 
-def speak(text, engine):
+def speak(text):
 
     # clean text
     ALLOWED_CHARS = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,?!-_$:+-/ ")
     clean_text = ''.join(c for c in text if c in ALLOWED_CHARS)
 
-    # save audio to file
+    # Init pyttsx3
+    engine = pyttsx3.init()
     engine.setProperty('rate', 165)
-    engine.save_to_file(clean_text, '../output.mp3')
+    engine.say(clean_text)
+    #engine.save_to_file(clean_text, '../name.mp3')
     engine.runAndWait()
-    print('file saved')
 
-    # play audio
-    audio_bytes = open('../output.mp3', 'rb').read()
-    st.audio(audio_bytes, format='audio/mp3')
+    # wait until speaking is finished (approximate)
+    time.sleep(len(clean_text)/10)
 
-    # say text
-    #
-    #engine.say(clean_text)
-    #engine.runAndWait()
-    #
 
+
+    # play audio with streamlit
+    #st.audio('../name.mp3', format='audio/mp3')
 
 
